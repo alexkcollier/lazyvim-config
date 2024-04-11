@@ -34,4 +34,32 @@ return {
       })
     end,
   },
+
+  -- ocaml ignore mason
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        ocamllsp = { mason = false },
+      },
+      setup = {
+        ocamllsp = function()
+          local lsp = require("lspconfig")
+
+          lsp.ocamllsp.setup({
+            cmd = { "ocamllsp" },
+            filetypes = { "ocaml", "menhir", "interface", "ocamllex", "reason", "dune" },
+            root_dir = lsp.util.root_pattern(
+              "*.opam",
+              "esy.json",
+              "package.json",
+              ".git",
+              "dune-project",
+              "dune-workspace"
+            ),
+          })
+        end,
+      },
+    },
+  },
 }
